@@ -57,7 +57,7 @@ export default function ArtistDetail() {
         </h1>
         {artistData?.dateOfBirth && (
           <span className="text-xs text-black font-semibold flex items-center">
-            {artistData?.nationality}, b. {new Date(artistData?.dateOfBirth).getFullYear()}
+            {artistData?.nationality}, born. {new Date(artistData?.dateOfBirth).getFullYear()}
           </span>
         )}
       </div>
@@ -86,33 +86,48 @@ export default function ArtistDetail() {
           className="ml-6 overflow-y-auto max-h-[483px] max-w-full lg:max-w-[60%] text-sm text-gray"
         >
           <p>{artistData?.description || 'No description available.'}</p>
-          <h5 className="font-semibold pt-5">
-            The artist lives and works in {artistData?.presentAddress || 'N/A'}
-          </h5>
+          {artistData?.presentAddress && (
+            <h5 className="font-semibold pt-5">
+              The artist lives and works in {artistData.presentAddress}
+            </h5>
+          )}
         </motion.div>
       </div>
-
       <div className="lg:py-10">
         <h2 className="py-10">WORKS</h2>
-        <Swiper modules={[Navigation, Scrollbar, A11y]} spaceBetween={50} slidesPerView={5} navigation autoplay pagination={{ clickable: true }} breakpoints={{ 320: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 5 } }}>
-          {artworkData?.map((item, index) => (
-            <SwiperSlide key={index} className="text-[#585858] text-sm leading-6 uppercase">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => handleCardClick(item)}
-                className="cursor-pointer flex flex-col items-center lg:items-start text-center lg:text-left bg-white shadow-md rounded-lg p-4 w-full"
-              >
-                <Image src={item?.artWorkImage?.[0] || noImage} alt={item?.artWorkName || 'Artwork'} width={268} height={268} className="border border-gray-300 rounded-md w-full h-[180px] object-cover" />
-                <h3 className="text-base md:text-lg font-semibold mt-2">{item?.artWorkName ?? 'Not Available'}</h3>
-                <p className="text-xs md:text-sm py-1 text-gray-600">
-                  {item?.description?.length > 50 ? `${item?.description?.slice(0, 50)}...` : item?.description}
-                </p>
-                <p className="text-sm font-medium">Price: {item?.priceRange ? `$${item?.priceRange}` : 'Not Available'}</p>
-              </motion.div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {artworkData?.length > 0 ? (
+          <Swiper modules={[Navigation, Scrollbar, A11y]}
+            spaceBetween={25} slidesPerView={5}
+            navigation autoplay pagination={{ clickable: true }}
+            breakpoints={{
+              320: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 5 },
+            }} >
+            {artworkData.map((item, index) => (
+              <SwiperSlide key={index} className="text-[#585858] text-sm leading-6 uppercase" >
+                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }} 
+                  onClick={() => handleCardClick(item)}
+                  className="cursor-pointer flex flex-col items-center lg:items-start text-center lg:text-left bg-white shadow-xl border-[2px] border-zinc-200 rounded-lg py-4 px-2 w-full" >
+                  <Image src={item?.artWorkImage?.[0] || noImage} alt={item?.artWorkName || "Artwork"}
+                    width={268} height={268} className="rounded-md w-full h-[180px] object-cover"
+                    style={{ border: "1px solid gray" }} />
+                  <h3 className="text-base md:text-lg font-semibold mt-2">
+                    {item?.artWorkName ?? "Not Available"}
+                  </h3>
+                  <p className="text-xs md:text-sm py-1 text-gray-600">
+                    {item?.description?.length > 50 ? `${item?.description?.slice(0, 50)}...` : item?.description}
+                  </p>
+                  <p className="text-sm font-medium">
+                    Price: {item?.priceRange ? `$${item?.priceRange}` : "Not Available"}
+                  </p>
+                </motion.div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <p className="text-center text-gray-500 text-lg py-10">No work available</p>
+        )}
       </div>
 
       <AnimatePresence>

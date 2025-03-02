@@ -27,13 +27,6 @@ const Footer = () => {
               <span className="pl-5">+60123009788</span>
             </div>
           </div>
-
-            {/* <div className="flex flex-col gap-1 text-slate"> 
-              <span> Sea Breeze, Zephyr Point, Damansara Heights, KL 50490 Malaysia </span>
-              <span><a href="mailto:archanagallery@gmail.com">archanagallery@gmail.com</a></span>
-              <span> +60123009788 </span>
-            </div>
-            */}
           </div>
         </div>
         <div className="flex gap-1 text-[30px] pt-5 justify-center">
