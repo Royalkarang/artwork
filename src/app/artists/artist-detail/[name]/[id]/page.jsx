@@ -91,6 +91,7 @@ export default function ArtistDetail() {
               The artist lives and works in {artistData.presentAddress}
             </h5>
           )}
+
         </motion.div>
       </div>
       <div className="lg:py-10">
